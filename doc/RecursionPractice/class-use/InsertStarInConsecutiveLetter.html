@@ -1,0 +1,178 @@
+package Othello;
+
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+
+import Othello.OthelloBoard.status;
+import Othello.OthelloBoard.values;
+
+
+public class Othello extends JFrame implements ActionListener {
+
+	public static int buttonIndex=0;
+	public static boolean actionPerformed=false;
+	public static boolean invalid=false;
+	private static final long serialVersionUID = 1L;
+	JPanel[] row = new JPanel[10];
+	JButton[] button = new JButton[64];
+	String[] buttonString={" "};
+
+	int[] dimW = {280,45,100,90};
+	int[] dimH = {50, 40}; 
+	Dimension displayDimension = new Dimension(dimW[0], dimH[0]);
+	Dimension regularDimension = new Dimension(dimW[1], dimH[1]);
+
+	JTextArea display = new JTextArea(1,30);
+	Font font = new Font("Times new Roman", Font.BOLD, 14);
+	public  Othello() {
+
+		super("Othello");
+		setDesign();
+		setSize(450, 450);
+		setResizable(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+		GridLayout grid = new GridLayout(10,10);
+		setLayout(grid);
+
+		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
+		FlowLayout f2 = new FlowLayout(FlowLayout.CENTER,1,1);
+
+		for(int i = 0; i < 10; i++) {
+			row[i] = new JPanel();
+		}
+		row[0].setLayout(f1);
+		row[9].setLayout(f1);
+
+		for(int i = 1; i <9; i++) {
+			row[i].setLayout(f2);
+		}
+
+		for(int i = 0; i < 64; i++) {
+			button[i] = new JButton();
+			button[i].setText(" ");
+			button[i].setFont(font);
+			button[i].addActionListener(this);
+		}
+
+		display.setFont(font);
+		display.setEditable(false);
+		display.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		display.setPreferredSize(displayDimension);
+
+		for(int i = 0; i < 64; i++) {
+			button[i].setPreferredSize(regularDimension);
+
+		}
+
+		row[0].add(display);
+		add(row[0]);
+
+		for(int i = 0; i <8; i++){
+			row[1].add(button[i]);
+		}
+
+		add(row[1]);
+
+		for(int i = 8; i <16; i++){
+			row[2].add(button[i]);   
+		}
+
+		add(row[2]); 
+
+		for(int i = 16; i <24; i++){
+			row[3].add(button[i]);   
+		}
+
+		add(row[3]);
+
+		for(int i = 24; i <32; i++){
+			row[4].add(button[i]);   
+		}
+
+		add(row[4]);
+
+		for(int i = 32; i <40; i++){
+			row[5].add(button[i]);
+		}
+
+		add(row[5]);
+
+		for(int i = 40; i <48; i++){
+			row[6].add(button[i]);
+		}
+
+		add(row[6]);
+
+		for(int i = 48; i <56; i++){
+			row[7].add(button[i]);           
+		}
+
+		add(row[7]);
+
+		for(int i = 56; i <64; i++){
+			row[8].add(button[i]);
+		}
+
+		add(row[8]);
+
+		setVisible(true);
+
+		button[27].setText("X");
+		button[28].setText("0");
+		button[35].setText("0");
+		button[36].setText("X");
+	}
+
+	public final void setDesign() {
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+		}
+		catch(Exception e) {   
+		}
+	}
+
+	public void actionPerformed(ActionEvent ae) {
+
+		int k;
+		for(k=0 ; k <64 ; k++) {    	
+			if(ae.getSource() == button[k]) {
+				break;
+			}
+		}
+		buttonIndex = k;
+		actionPerformed=true;   
+	}
+
+	public static void main(String args[]) throws InterruptedException {
+
+		Othello oth = new Othello();
+		String first = JOptionPane.showInputDialog("Please enter the name of first player");
+		String second = JOptionPane.showInputDialog("Please enter the name of second player");
+		Player player1 = new Player(first);
+		Player player2 = new Player(second);
+
+		// Make a new Board
+		OthelloBoard board = new OthelloBoard();
+		boolean done = false;
+		Player currentPlayer = player1;
+		values playerNumber = values.PLAYER1;//values is an enum class
+		while (!done) {
+
+			oth.display.setText(currentPlayer.getName()+ "  your move");
+
+			// catch exception and keep making user input till validj
+			boolean wasCorrectInput = false;
+			//The sleep() method of Thread class is used to sleep a thread for the specified amount of time.
+			//As you know well that at a time only one thread is executed.
+			//If you sleep a thread for the specified time,the thread shedular picks up another thread and so on.
+			Thread.sleep(1000);
+			while (!wasCorrectInput) {
+				if(actionPerformed == true){
+					int row = (buttonIndex/8);
+					int column = buttonIndex%8;
+
+					try {
+						board.updateBoard(playerNumber, row, column, o

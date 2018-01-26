@@ -1,0 +1,28 @@
+package CompetitivePractice;
+
+import java.util.Scanner;
+
+//https://code.google.com/codejam/contest/351101/dashboard#s=p0
+public class StoreCredit {
+
+	//	public static int[][] getIndexPairs(int [] arr,int sum){
+	//
+	//		int result[][] = new int[1][2];
+	//		for(int i=0;i<arr.length;i++){
+	//
+	//			for(int j=i+1;j<arr.length;j++){
+	//
+	//				if(arr[i] + arr[j] == sum){
+	//					result[0][0]=i+1;
+	//					result[0][1]=j+1;
+	//					break;
+	//				}
+	//				else{
+	//					continue;
+	//				}
+	//			}
+	//		}
+	//
+	//		return result;
+	//	}
+	public static void main(String[] args) {
